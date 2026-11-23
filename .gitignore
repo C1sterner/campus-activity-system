@@ -13,3 +13,4 @@ dist/
 .vscode/
 Thumbs.db
 .analysis/
+.qa/
