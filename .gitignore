@@ -14,3 +14,8 @@ dist/
 Thumbs.db
 .analysis/
 .qa/
+backend/src/main/resources/static/
+release/*.jar
+release/*.zip
+*.mv.db
+*.trace.db

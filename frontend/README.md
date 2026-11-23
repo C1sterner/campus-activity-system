@@ -1,3 +1,3 @@
 # 前端实现入口
 
-建议使用 Vue 3、Element Plus、Vite 和已锁定的 Node LTS。页面按角色路由，HTTP 客户端统一处理 token、traceId、错误码和登录失效。动态表单必须复用 docs/03 中的 schema fixture；浏览器 localStorage 草稿不能覆盖已正式提交报名。
+已实现Vue3、Element Plus、Vite页面。Node22环境执行`npm ci`、`npm run dev`；默认代理后端`http://127.0.0.1:8080`，可通过`BACKEND_URL`覆盖。`npm run build`输出dist，整合后端请运行根目录`scripts/build.ps1`。学生、教师、活动管理员、系统管理员各有页面，登录token只存在当前标签页sessionStorage。
