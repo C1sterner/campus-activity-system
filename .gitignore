@@ -1,0 +1,15 @@
+# secrets and local state
+.env
+.env.*
+!.env.example
+*.log
+uploads/
+data/
+mysql-data/
+node_modules/
+target/
+dist/
+.idea/
+.vscode/
+Thumbs.db
+.analysis/
