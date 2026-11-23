@@ -18,7 +18,7 @@
 - `db/mysql/V001__baseline.sql`：六张业务表、外键、唯一索引及校验约束草案。
 - `db/mysql/V002__config_defaults.sql`：上传限制等配置初值，不含用户或密码。
 - `db/review-transaction.md`：审核原子更新、草稿竞争、重复提交的实现约束。
-- `deploy/compose.mysql.yaml`、`deploy/.env.example`：仅数据库的开发环境模板。
+- `deploy/compose.mysql.yaml`、`.env.example`：仅数据库的开发环境模板，启动步骤见 `deploy/README.md`。
 - `deploy/nginx.conf.example`：反向代理和上传体积配置片段。
 - `scripts/check-env.ps1`：只读环境检查脚本。
 - `CONTRIBUTING.md`、`.github/`：分支、评审与任务模板。

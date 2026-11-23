@@ -1,9 +1,10 @@
 -- Campus activity registration/review baseline schema.
--- Run only in a new isolated development database. Review D14/D17 before production use.
+-- MySQL 8.0.16+; CHECK constraints are enforced from that version.
+-- Run once in a new isolated development database. Review D14/D17 before production use.
 SET NAMES utf8mb4;
 SET time_zone = '+08:00';
 
-CREATE TABLE IF NOT EXISTS sys_user (
+CREATE TABLE sys_user (
   user_id BIGINT NOT NULL AUTO_INCREMENT,
   user_name VARCHAR(50) NOT NULL,
   password VARCHAR(255) NOT NULL,
@@ -23,7 +24,7 @@ CREATE TABLE IF NOT EXISTS sys_user (
   CONSTRAINT ck_user_status CHECK (status IN ('0','1'))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS activity (
+CREATE TABLE activity (
   activity_id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(100) NOT NULL,
   content TEXT NOT NULL,
@@ -44,7 +45,7 @@ CREATE TABLE IF NOT EXISTS activity (
   CONSTRAINT ck_activity_time CHECK (end_time > start_time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS registration (
+CREATE TABLE registration (
   reg_id INT NOT NULL AUTO_INCREMENT,
   activity_id INT NOT NULL,
   user_id BIGINT NOT NULL,
@@ -64,7 +65,7 @@ CREATE TABLE IF NOT EXISTS registration (
   CONSTRAINT ck_registration_version CHECK (version >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS review_record (
+CREATE TABLE review_record (
   review_id INT NOT NULL AUTO_INCREMENT,
   reg_id INT NOT NULL,
   reviewer_id BIGINT NOT NULL,
@@ -76,10 +77,10 @@ CREATE TABLE IF NOT EXISTS review_record (
   CONSTRAINT fk_review_reg FOREIGN KEY (reg_id) REFERENCES registration(reg_id),
   CONSTRAINT fk_review_reviewer FOREIGN KEY (reviewer_id) REFERENCES sys_user(user_id),
   CONSTRAINT ck_review_result CHECK (result IN ('1','2')),
-  CONSTRAINT ck_review_reject_opinion CHECK (result <> '2' OR CHAR_LENGTH(TRIM(opinion)) > 0)
+  CONSTRAINT ck_review_reject_opinion CHECK (result <> '2' OR (opinion IS NOT NULL AND CHAR_LENGTH(TRIM(opinion)) > 0))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS sys_config (
+CREATE TABLE sys_config (
   config_id INT NOT NULL AUTO_INCREMENT,
   config_key VARCHAR(100) NOT NULL,
   config_value VARCHAR(500) NOT NULL,
@@ -88,7 +89,7 @@ CREATE TABLE IF NOT EXISTS sys_config (
   UNIQUE KEY uk_config_key (config_key)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS operation_log (
+CREATE TABLE operation_log (
   log_id BIGINT NOT NULL AUTO_INCREMENT,
   operator_id BIGINT NOT NULL,
   op_type VARCHAR(50) NOT NULL,
